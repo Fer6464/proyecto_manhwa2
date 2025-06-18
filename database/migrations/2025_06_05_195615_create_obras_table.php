@@ -21,7 +21,6 @@ class CreateObrasTable extends Migration
             $table->string('autor',60);
             $table->string('portada',100);
             $table->time('fecha_creacion');
-            $table->time('fecha_finalizacion');
             $table->text('descripcion');
             $table->enum('estado',['En emisión','Finalizado','En Hiatus','Cancelado'])->default('En emisión');
             $table->timestamps();

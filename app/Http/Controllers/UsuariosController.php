@@ -14,7 +14,7 @@ class UsuariosController extends Controller
      */
     public function index()
     {
-        //
+        return view('user/index');
     }
 
     /**
@@ -24,9 +24,12 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
+    public function login(){
+        return view('user.login');
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -34,8 +37,10 @@ class UsuariosController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        session(['nombre' => $request->input('nombre')]);
+        return redirect('user/')
+            ->with('success', 'Ejemplo creado correctamente.');
     }
 
     /**

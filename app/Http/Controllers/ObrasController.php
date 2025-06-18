@@ -16,6 +16,12 @@ class ObrasController extends Controller
     {
         return view('manhwa/index');
     }
+    
+
+    //Esto creo que seria lo mismo que show, no se
+    public function viewObra(){
+        return view('manhwa/vistaObra');
+    }
 
     /**
      * Show the form for creating a new resource.
