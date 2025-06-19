@@ -11,7 +11,7 @@ class Usuarios extends Model
     use HasFactory;
     protected $fillable = ['apodo', 'contraseña', 'genero','creado_en','foto_perfil','fondo_perfil','rol'];
     public function obras(){
-        return $this->hasMany(Obras::class);
+        return $this->hasMany(Obra::class, 'usuarios_id');
     }
 
 }

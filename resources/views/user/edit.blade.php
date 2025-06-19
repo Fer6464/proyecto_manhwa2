@@ -2,7 +2,7 @@
 
 @section('inputcontenido')
     <div class="login_form">
-        <form action="{{ route('user.update', $usuario->id) }}" method="POST">
+        
             @csrf
             @method('PUT')
 

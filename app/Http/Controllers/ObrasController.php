@@ -49,25 +49,28 @@ class ObrasController extends Controller
 
     public function store(Request $request)
     {
-       $validated = $request->validate([
-            'nombre' => 'required|string|max:250|unique:obras,nombre',
-            'autor' => 'required|string|max:60',
-            'portada' => 'required|url|max:500',
-            'fecha_creacion' => 'required|date',
-            'fecha_finalizacion' => 'nullable|string',
-            'descripcion' => 'required|string',
-            'estado' => 'required|in:En emisión,Finalizado,En Hiatus,Cancelado',
-            'usuarios_id' => 'nullable|exists:usuarios,id',
-        ]);
+        $validated = $request->validate([
+                'nombre' => 'required|string|max:250|unique:obras,nombre',
+                'autor' => 'required|string|max:60',
+                'portada' => 'required|url|max:500',
+                'fecha_creacion' => 'required|date',
+                'fecha_finalizacion' => 'nullable|string',
+                'descripcion' => 'required|string',
+                'estado' => 'required|in:En emisión,Finalizado,En Hiatus,Cancelado',
+                'usuarios_id' => 'nullable|exists:usuarios,id',
+            ]);
 
-        $obra = Obra::create($validated);
-        if ($request->has('tags')) {
-            $obra->tags()->sync($request->tags); // sincroniza con la tabla pivot
+        if ($request->session()->has('id')) {
+            $validated['usuarios_id'] = $request->session()->get('id');
         }
-        // Redirige a la vista de show
+        $obra = Obra::create($validated);
+
+        if ($request->has('tags')) {
+            $obra->tags()->sync($request->tags);
+        }
+
         return redirect()->route('manhwa.show', $obra->id)
                         ->with('success', 'Obra creada correctamente');
-        
     }
 
     public function storeChapter(Request $request, $id)

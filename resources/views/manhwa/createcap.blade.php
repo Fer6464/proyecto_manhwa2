@@ -78,6 +78,7 @@
         <form action="{{ route('manhwa.storeChapter', $obra->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+    
             <div class="mb-3">
                 <label for="numero" class="form-label">Número de Capítulo</label>
                 <input type="number" name="numero" class="form-control" value="{{ old('numero') }}">

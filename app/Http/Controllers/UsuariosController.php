@@ -9,8 +9,9 @@ use Illuminate\Http\Request;
 class UsuariosController extends Controller
 {
     public function index()
-    {
-        $obras = Obra::latest()->get();
+    {   
+        $usuario = Usuarios::find(session('id'));
+        $obras = $usuario->obras()->latest()->get();
         return view('user/index', compact('obras'));
     }
 

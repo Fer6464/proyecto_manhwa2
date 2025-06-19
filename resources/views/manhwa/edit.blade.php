@@ -80,6 +80,10 @@
         <form action="{{ route('manhwa.update', $obra->id) }}" method="POST">
             @csrf
             @method('PUT')
+            <div class="mb-3">
+            <label for="user_id" class="form-label">Id de usuario</label>
+            <input type="text" name="user_id" class="form-control" value="{{ session('id') }}" readonly required>
+            </div>
 
             <div class="mb-3">
                 <label for="nombre" class="form-label">Título de la obra</label>
