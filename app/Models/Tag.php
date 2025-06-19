@@ -10,6 +10,6 @@ class Tag extends Model
     use HasFactory;
     protected $fillable = ['nombre'];
     public function obras(){
-        return $this->belongsToMany(obras::class);
+        return $this->belongsToMany(Obra::class, 'obra_tag', 'tags_id', 'obras_id');
     }
 }

@@ -15,8 +15,7 @@
 
         <div class="main-content">
           <div class="title-container">
-              <div class="title">Nuevos Lanzamientos:</div>
-              <a href="{{ route('manhwa.create') }}" class="btn-create">+ Agregar Manhwa</a>
+              <div class="title">Resultados:</div>
           </div>
 
           @forelse($obras as $obra)
@@ -31,13 +30,11 @@
                   </div>
               </div>
           @empty
-              <p class="no-content-message">No hay manhwas aún. ¡Crea uno nuevo!</p>
+              <p class="no-content-message">No existen resultados!</p>
           @endforelse
               
         </div>
         <div class="ad-right">
           <img src="{{ asset('archivos/ad.png') }}" alt="ad" style="object-fit: cover; width: 100%; height: 100%;">
         </div>
-
 @endsection
-

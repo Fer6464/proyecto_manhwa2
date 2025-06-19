@@ -16,11 +16,12 @@ class CreateObrasTable extends Migration
         //relacion uno a muchos de usuario y obras
         Schema::create('obras', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuarios_id')->constrained()->onDelete('cascade');
+            $table->foreignId('usuarios_id')->nullable()->constrained();
             $table->string('nombre',250)->unique();   
             $table->string('autor',60);
-            $table->string('portada',100);
-            $table->time('fecha_creacion');
+            $table->string('portada',500);
+            $table->date('fecha_creacion');
+            $table->date('fecha_finalizacion')->nullable();
             $table->text('descripcion');
             $table->enum('estado',['En emisión','Finalizado','En Hiatus','Cancelado'])->default('En emisión');
             $table->timestamps();

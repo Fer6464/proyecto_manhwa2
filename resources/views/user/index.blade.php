@@ -69,11 +69,16 @@
 
 <!--aca tambien falta algo como session('fotoperfil') y lo mismo con el fondo de perfil-->
 @section('imagen_usuario')
-    https://i.pinimg.com/736x/30/6f/56/306f56b5f496dd5b3721ea779bf886de.jpg
+    {{ session( 'fotoperfil' )}}
 @endsection
 
 @section('nombre_usuario')
-    {{ session('nombre') }}
+    {{ session('apodo') }}
+@endsection
+
+@section('opciones')
+<a href="{{ route('user.edit', session('id')) }}">Editar Perfil</a>
+<hr>
 @endsection
 
 @section('contenido')
@@ -83,42 +88,37 @@
     <div class="body_2">
         <div class="profile-card">
             <div class="profile-banner">
-                <img src="https://i.idol.st/u/card/art/2x/913UR-Tennoji-Rina-I-Like-Photography-More-Than-Before-Classical-Gothic-Mai-gnnomt.png" alt="Banner del perfil">
+                <img src="{{ session('fondoperfil' )}}" alt="Banner del perfil">
             </div>
 
             <div class="profile-content">
-                <img class="profile-picture" src="https://i.pinimg.com/736x/30/6f/56/306f56b5f496dd5b3721ea779bf886de.jpg" alt="Foto de perfil">
+                <img class="profile-picture" src="{{ session('fotoperfil') }}" alt="Foto de perfil">
 
                 <div class="user-info">
-                    <h1 class="user-name">{{session('nombre')}}</h1>
-                    <p class="user-detail">Fecha cuando se unió: ...</p>
-                    <p class="user-detail">Roles(o descripcion, que se yo): admin, traductor/a, editor/a</p>
+                    <h1 class="user-name">{{session('apodo')}}</h1>
+                    <p class="user-detail">Fecha de union: {{session('fecha_creacion')}}</p>
+                    <p class="user-detail">Rol: {{session('rol')}}</p> 
                 </div>
             </div>
         </div>
     </div>
     <div class="main-content">
-            <div class="title">Mangas Subidos por el usuario:</div>
-            <!-- solo un div de clase manga display sera colocado aqui dentro de un for-->
-            <!-- generando las imagenes y titulos con sus respectivos links-->
-            <!-- como decia, copiar y pegar xd-->
-            <div class="manga-display">
-                <div class="manga">
-                    <img src="{{ asset('archivos/portada.jpg') }}" alt="ad" style="object-fit: contain; width: 100%; height: 100%;">
-                </div>
-                <div class="manga-titulo">Nombre</div>
-                <div class="manga-fecha">Fecha</div>
-                <div class="manga-descripcion">Descripcion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aut cum eum id quos est. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aut cum eum id quos est. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aut cum eum id quos est.</div>
-                </div>
-            <div class="manga-display">
-                <div class="manga">
-                    <img src="{{ asset('archivos/portada.jpg') }}" alt="ad" style="object-fit: contain; width: 100%; height: 100%;">
-                </div>
-                <div class="manga-titulo">Nombre</div>
-                <div class="manga-fecha">Fecha</div>
-                <div class="manga-descripcion">Descripcion: Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aut cum eum id quos est. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aut cum eum id quos est. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem aut cum eum id quos est.</div>
-            </div>
-        </div>
+            <div class="title">Obras subidos por el usuario:</div>
+            @forelse($obras as $obra)
+              <div class="manga-display">
+                  <a href="{{ route('manhwa.show', $obra->id) }}" class="manga-cover-link">
+                      <img src="{{ $obra->portada ?? '/images/placeholder.jpg' }}" class="manga-cover-img" alt="Portada de {{ $obra->nombre }}">
+                  </a>
+                  <div class="manga-info">
+                      <a href="{{ route('manhwa.show', $obra->id) }}" class="manga-titulo">{{ $obra->nombre }}</a>
+                      <div class="manga-autor"><strong>Autor:</strong> {{ $obra->autor }}</div>
+                      <div class="manga-descripcion">{{ \Illuminate\Support\Str::limit($obra->descripcion, 150) }}</div>
+                  </div>
+              </div>
+          @empty
+              <p class="no-content-message">Este usuario no subió nada!</p>
+          @endforelse
+    </div>
     <div class="ad-right">
           <img src="{{ asset('archivos/ad.png') }}" alt="ad" style="object-fit: cover; width: 100%; height: 100%;">
     </div>

@@ -9,7 +9,7 @@ use app\Models\Obras;
 class Usuarios extends Model
 {
     use HasFactory;
-    protected $fillable = ['apodo','genero','creado_en','foto_perfil','fondo_perfil','rol'];
+    protected $fillable = ['apodo', 'contraseña', 'genero','creado_en','foto_perfil','fondo_perfil','rol'];
     public function obras(){
         return $this->hasMany(Obras::class);
     }
