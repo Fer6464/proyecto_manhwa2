@@ -151,3 +151,4 @@ class UsuariosController extends Controller
         return redirect()->route('logout')->with('Usuario eliminado correctamente.');
     }
 }
+//comentario insano
