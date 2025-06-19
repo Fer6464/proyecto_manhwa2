@@ -20,6 +20,6 @@ class Capitulo extends Model
 
     public function imagenes()
     {
-        return $this->hasMany(CapituloImagen::class);
+        return $this->hasMany(CapituloImagen::class)->orderBy('created_at', 'desc');
     }
 }

@@ -34,7 +34,6 @@
     <!-- Mostrar imágenes del capítulo -->
     @foreach($capitulo->imagenes as $imagen)
         <div class="mb-3 text-center">
-            {{ asset($imagen->url) }}
             <img src="{{ asset($imagen->url) }}" class="img-fluid" alt="Imagen del capítulo">
         </div>
     @endforeach

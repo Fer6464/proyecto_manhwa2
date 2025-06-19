@@ -138,8 +138,16 @@ class UsuariosController extends Controller
      * @param  \App\Models\Usuarios  $usuarios
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Usuarios $usuarios)
+     public function destroy(Request $request, $id)
     {
-        //
+        $usuario = Usuarios::findOrFail($id);
+
+        if ($request->input('contraseña') !== $usuario->contraseña) {
+            return back()->with('error', 'Contraseña incorrecta');
+        }
+
+        $usuario->delete();
+
+        return redirect()->route('logout')->with('Usuario eliminado correctamente.');
     }
 }

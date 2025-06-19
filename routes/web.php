@@ -33,6 +33,9 @@ Route::prefix('manhwa')->name('manhwa.')->group(function () {
     Route::get('/search', [ObrasController::class, 'search'])->name('search');
     Route::get('{id}', [ObrasController::class, 'show'])->name('show');
     Route::get('/capitulos/{id}/ver', [ObrasController::class, 'viewChapter'])->name('chapterview');
+
+    Route::delete('/capitulos/{id}', [ObrasController::class, 'destroyChapter'])->name('destroyChapter'); 
+    Route::delete('{id}', [ObrasController::class, 'destroy'])->name('destroy');
 });
 
 // ------------------ USER ------------------
@@ -46,6 +49,8 @@ Route::post('/user/store', [UsuariosController::class, 'store'])->name('user.sto
 
 Route::get('/user/{id}/edit', [UsuariosController::class, 'edit'])->middleware('sesion')->name('user.edit');;
 Route::put('/user/{id}', [UsuariosController::class, 'update'])->name('user.update');
+
+Route::delete('user/{id}', [UsuariosController::class, 'destroy'])->name('user.destroy');
 
 Route::get('/logout', function () {
     session()->flush();

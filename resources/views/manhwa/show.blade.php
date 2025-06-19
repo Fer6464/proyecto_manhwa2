@@ -14,6 +14,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
 
 @section('contenido')
+@if($errors->any())
+    <div class="alert alert-danger">
+        @foreach($errors->all() as $error)
+            <div>{{ $error }}</div>
+        @endforeach
+    </div>
+@endif
 <div class="ad-left">
           <img src="{{ asset('archivos/ad.png') }}" alt="ad" style="object-fit: cover; width: 100%; height: 100%;">
         </div>
@@ -51,6 +58,13 @@
                 <div class="mt-3">
                     <a href="{{ route('manhwa.edit', $obra->id) }}" class="btn btn-warning">Editar</a>
                     <a href="{{ route('manhwa.createChapter', $obra->id) }}" class="btn btn-primary">Subir Capítulo</a>
+                    <form action="{{ route('manhwa.destroy', $obra->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta obra?');" class="d-inline">
+                        @csrf
+                        @method('DELETE')   
+
+                        <input type="password" name="password" class="form-control d-inline w-auto" placeholder="Contraseña" required>
+                        <button type="submit" class="btn btn-danger">Eliminar Obra</button>
+                    </form>
                 </div>
             </div>
 
@@ -59,10 +73,23 @@
                 <ul class="list-group">
                     @foreach ($obra->capitulos as $capitulo)
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <a href="{{ route('manhwa.chapterview', $capitulo->id) }}">
-                                Capítulo {{ $capitulo->numero }}: {{ $capitulo->titulo }}
-                            </a>
-                            <small class="text-muted">Subido el: {{ $capitulo->created_at->format('d/m/Y') }}</small>
+                            <div>
+                                <a href="{{ route('manhwa.chapterview', $capitulo->id) }}">
+                                    Capítulo {{ $capitulo->numero }}: {{ $capitulo->titulo }}
+                                </a>
+                                <small class="text-muted"> | Subido el: {{ $capitulo->created_at->format('d/m/Y') }}</small>
+                            </div>
+
+                            <!-- Botón para mostrar formulario -->
+                            <button class="btn btn-danger btn-sm" onclick="mostrarFormulario('{{ $capitulo->id }}')">Eliminar</button>
+
+                            <!-- Formulario oculto -->
+                            <form id="form-eliminar-{{ $capitulo->id }}" action="{{ route('manhwa.destroyChapter', $capitulo->id) }}" method="POST" class="d-none mt-2">
+                                @csrf
+                                @method('DELETE')
+                                <input type="password" name="password" class="form-control form-control-sm my-1" placeholder="Contraseña">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Confirmar</button>
+                            </form>
                         </li>
                     @endforeach
                 </ul>
@@ -81,6 +108,12 @@
 <div class="ad-right">
           <img src="{{ asset('archivos/ad.png') }}" alt="ad" style="object-fit: cover; width: 100%; height: 100%;">
 </div>
+<script>
+    function mostrarFormulario(id) {
+        const form = document.getElementById('form-eliminar-' + id);
+        form.classList.toggle('d-none');
+    }
+</script>   
 @endsection
 
 

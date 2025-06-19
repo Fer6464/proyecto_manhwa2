@@ -2,10 +2,10 @@
 
 @section('inputcontenido')
     <div class="login_form">
-        
+        <form action="{{ route('user.update', $usuario->id) }}" method="POST">
             @csrf
             @method('PUT')
-
+        
             <div class="titulo">Editar Usuario</div>
 
             <div class="mb-3">
@@ -36,6 +36,14 @@
             </div>
             <button type="submit" class="btn">Actualizar</button>
         </form>
+        <br>
+        <form id="form-eliminar- usuario" action="{{ route('user.destroy', $usuario->id) }}" method="POST" class="d-none mt-2">
+            @csrf
+            @method('DELETE')
+            <div class="titulo">ELIMINAR Usuario</div>
+            <input type="password" name="contraseña" class="form-control form-control-sm my-1" placeholder="Contraseña">
+            <button type="submit" class="btn btn-outline-danger btn-sm">Confirmar</button>
+         </form>
     </div>
     
 @endsection

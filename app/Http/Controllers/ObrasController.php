@@ -112,7 +112,9 @@ class ObrasController extends Controller
 
     public function viewChapter($id)
     {
-        $capitulo = Capitulo::with(['imagenes', 'obra'])->findOrFail($id);
+        $capitulo = Capitulo::with(['imagenes' => function ($query) {
+            $query->orderBy('created_at', 'desc');
+        }, 'obra'])->findOrFail($id);
 
         $anterior = Capitulo::where('obra_id', $capitulo->obra_id)
                     ->where('numero', '<', $capitulo->numero)
@@ -167,8 +169,35 @@ class ObrasController extends Controller
     }
 
 
-    public function destroy(Obra $obra)
+    public function destroy(Request $request, $id)
     {
-        //
+        $obra = Obra::findOrFail($id);
+
+        if ($request->input('password') !== '123eliminar') {
+            return back()->with('error', 'Contraseña incorrecta');
+        }
+
+        $obra->delete();
+
+        return redirect()->route('manhwa.index')->with('success', 'Obra eliminada correctamente.');
+    }
+    
+    public function destroyChapter(Request $request, $id)
+    {
+        if ($request->input('password') !== 'eliminar123') {
+            return back()->with('error', 'Contraseña incorrecta para eliminar el capítulo.');
+        }
+
+        $capitulo = Capitulo::with('imagenes')->findOrFail($id);
+
+        foreach ($capitulo->imagenes as $imagen) {
+            $ruta = str_replace('/storage/', 'public/', $imagen->url);
+            Storage::delete($ruta);
+            $imagen->delete();
+        }
+
+        $capitulo->delete();
+
+        return back()->with('success', 'Capítulo eliminado correctamente.');
     }
 }
